@@ -9,13 +9,13 @@ if ($transport->xpdo) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             if ($modx instanceof modX) {
-                $modx->addExtensionPackage('app', '[[++core_path]]components/app/model/');
+                $modx->addExtensionPackage('apptemplate', '[[++core_path]]components/apptemplate/model/');
             }
             break;
 
         case xPDOTransport::ACTION_UNINSTALL:
             if ($modx instanceof modX) {
-                $modx->removeExtensionPackage('app');
+                $modx->removeExtensionPackage('apptemplate');
             }
             break;
     }

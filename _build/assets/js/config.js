@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '/assets/components/app/js/web/',
+    baseUrl: '/assets/components/apptemplate/js/web/',
     urlArgs: 'v=' + document.head.querySelector('meta[name="assets-version"]').content,
     waitSeconds: 30,
     paths: {
@@ -16,17 +16,17 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'pdoPage'
         },
-        app: {
+        apptemplate: {
             deps: ['jquery', 'bootstrap'],
-            exports: 'App'
+            exports: 'AppTemplate'
         },
     }
 });
 /*
 requirejs.onError = function (err) {
     if (err.requireType === 'timeout') {
-        if (typeof App === 'object') {
-            App.Message.alert('Could not load javascript. Try to reload page.', function () {
+        if (typeof AppTemplate === 'object') {
+            AppTemplate.Message.alert('Could not load javascript. Try to reload page.', function () {
                 document.location.reload();
             })
         } else {

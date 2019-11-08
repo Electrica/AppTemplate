@@ -6,7 +6,7 @@
 
 * Enter into SSH console and run
 ```
-php ~/www/Extras/App/_build/build.php
+php ~/www/Extras/AppTemplate/_build/build.php
 ```
 *path on your site may differs*
 
@@ -14,7 +14,7 @@ php ~/www/Extras/App/_build/build.php
 
 * For update assets use
 ```
-gulp watch --gulpfile ~/www/Extras/App/_build/gulpfile.js
+gulp watch --gulpfile ~/www/Extras/AppTemplate/_build/gulpfile.js
 ```
 
 And you can develop your new site.

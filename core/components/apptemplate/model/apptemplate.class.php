@@ -1,6 +1,6 @@
 <?php
 
-class App
+class AppTemplate
 {
     /** @var modX $modx */
     public $modx;
@@ -18,8 +18,8 @@ class App
     function __construct(modX &$modx, array $config = [])
     {
         $this->modx =& $modx;
-        $corePath = MODX_CORE_PATH . 'components/app/';
-        $assetsUrl = MODX_ASSETS_URL . 'components/app/';
+        $corePath = MODX_CORE_PATH . 'components/apptemplate/';
+        $assetsUrl = MODX_ASSETS_URL . 'components/apptemplate/';
 
         $this->config = array_merge([
             'corePath' => $corePath,
@@ -34,7 +34,7 @@ class App
 
 
     /**
-     * Initialize App
+     * Initialize AppTemplate
      */
     public function initialize()
     {
@@ -43,7 +43,7 @@ class App
             $_SESSION['csrf-token'] = bin2hex(openssl_random_pseudo_bytes(16));
         }
 
-        //$this->modx->addPackage('app', $this->config['modelPath']);
+        //$this->modx->addPackage('apptemplate', $this->config['modelPath']);
         /** @noinspection PhpIncludeInspection */
         //require_once $this->config['corePath'] . 'vendor/autoload.php';
     }

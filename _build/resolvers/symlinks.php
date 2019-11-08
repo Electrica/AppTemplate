@@ -5,23 +5,23 @@
 if ($transport->xpdo) {
     $modx =& $transport->xpdo;
 
-    $dev = MODX_BASE_PATH . 'Extras/App/';
+    $dev = MODX_BASE_PATH . 'Extras/AppTemplate/';
     /** @var xPDOCacheManager $cache */
     $cache = $modx->getCacheManager();
     if (file_exists($dev) && $cache) {
-        if (!is_link($dev . 'assets/components/app')) {
+        if (!is_link($dev . 'assets/components/apptemplate')) {
             $cache->deleteTree(
-                $dev . 'assets/components/app/',
+                $dev . 'assets/components/apptemplate/',
                 ['deleteTop' => true, 'skipDirs' => false, 'extensions' => []]
             );
-            symlink(MODX_ASSETS_PATH . 'components/app/', $dev . 'assets/components/app');
+            symlink(MODX_ASSETS_PATH . 'components/apptemplate/', $dev . 'assets/components/apptemplate');
         }
-        if (!is_link($dev . 'core/components/app')) {
+        if (!is_link($dev . 'core/components/apptemplate')) {
             $cache->deleteTree(
-                $dev . 'core/components/app/',
+                $dev . 'core/components/apptemplate/',
                 ['deleteTop' => true, 'skipDirs' => false, 'extensions' => []]
             );
-            symlink(MODX_CORE_PATH . 'components/app/', $dev . 'core/components/app');
+            symlink(MODX_CORE_PATH . 'components/apptemplate/', $dev . 'core/components/apptemplate');
         }
     }
 }

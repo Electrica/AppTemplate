@@ -1,4 +1,4 @@
-Changelog for App.
+Changelog for AppTemplate.
 
 1.0.0-beta
 ==============

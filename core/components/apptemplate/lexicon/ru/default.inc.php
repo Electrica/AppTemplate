@@ -1,4 +1,4 @@
 <?php
 include_once 'setting.inc.php';
 
-$_lang['app'] = 'App';
+$_lang['apptemplate'] = 'AppTemplate';

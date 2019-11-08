@@ -15,10 +15,10 @@ Preamble
 freedom to share and change it.  By contrast, the GNU General Public
 License is intended to guarantee your freedom to share and change free
 software--to make sure the software is free for all its users.  This
-General Public License applies to most of the Free Software
+General Public License apptemplatelies to most of the Free Software
 Foundation's software and to any other program whose authors commit to
 using it.  (Some other Free Software Foundation software is covered by
-the GNU Library General Public License instead.)  You can apply it to
+the GNU Library General Public License instead.)  You can apptemplately it to
 your programs, too.
 
   When we speak of free software, we are referring to freedom, not
@@ -64,7 +64,7 @@ GNU GENERAL PUBLIC LICENSE
 TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 ---------------------------------------------------------------
 
-  0. This License applies to any program or other work which contains
+  0. This License apptemplatelies to any program or other work which contains
 a notice placed by the copyright holder saying it may be distributed
 under the terms of this General Public License.  The "Program", below,
 refers to any such program or work, and a "work based on the Program"
@@ -83,7 +83,7 @@ Whether that is true depends on what the Program does.
 
   1. You may copy and distribute verbatim copies of the Program's
 source code as you receive it, in any medium, provided that you
-conspicuously and appropriately publish on each copy an appropriate
+conspicuously and apptemplateropriately publish on each copy an apptemplateropriate
 copyright notice and disclaimer of warranty; keep intact all the
 notices that refer to this License and to the absence of any warranty;
 and give any other recipients of the Program a copy of this License
@@ -108,7 +108,7 @@ above, provided that you also meet all of these conditions:
     c) If the modified program normally reads commands interactively
     when run, you must cause it, when started running for such
     interactive use in the most ordinary way, to print or display an
-    announcement including an appropriate copyright notice and a
+    announcement including an apptemplateropriate copyright notice and a
     notice that there is no warranty (or else, saying that you provide
     a warranty) and that users may redistribute the program under
     these conditions, and telling the user how to view a copy of this
@@ -116,10 +116,10 @@ above, provided that you also meet all of these conditions:
     does not normally print such an announcement, your work based on
     the Program is not required to print an announcement.)
 
-These requirements apply to the modified work as a whole.  If
+These requirements apptemplately to the modified work as a whole.  If
 identifiable sections of that work are not derived from the Program,
 and can be reasonably considered independent and separate works in
-themselves, then this License, and its terms, do not apply to those
+themselves, then this License, and its terms, do not apptemplately to those
 sections when you distribute them as separate works.  But when you
 distribute the same sections as part of a whole which is a work based
 on the Program, the distribution of the whole must be on the terms of
@@ -214,7 +214,7 @@ refrain entirely from distribution of the Program.
 
 If any portion of this section is held invalid or unenforceable under
 any particular circumstance, the balance of the section is intended to
-apply and the section as a whole is intended to apply in other
+apptemplately and the section as a whole is intended to apptemplately in other
 circumstances.
 
 It is not the purpose of this section to induce you to infringe any
@@ -223,7 +223,7 @@ such claims; this section has the sole purpose of protecting the
 integrity of the free software distribution system, which is
 implemented by public license practices.  Many people have made
 generous contributions to the wide range of software distributed
-through that system in reliance on consistent application of that
+through that system in reliance on consistent apptemplatelication of that
 system; it is up to the author/donor to decide if he or she is willing
 to distribute software through any other system and a licensee cannot
 impose that choice.
@@ -245,7 +245,7 @@ be similar in spirit to the present version, but may differ in detail to
 address new problems or concerns.
 
 Each version is given a distinguishing version number.  If the Program
-specifies a version number of this License which applies to it and "any
+specifies a version number of this License which apptemplatelies to it and "any
 later version", you have the option of following the terms and conditions
 either of that version or of any later version published by the Free
 Software Foundation.  If the Program does not specify a version number of

@@ -18,7 +18,7 @@ return [
     'pdotools_elements_path' => [
         'key' => 'pdotools_elements_path',
         'xtype' => 'textfield',
-        'value' => '{core_path}components/app/elements/',
+        'value' => '{core_path}components/apptemplate/elements/',
         'area' => 'pdotools_main',
         'namespace' => 'pdotools',
     ],

@@ -7,13 +7,13 @@ const gulp = require('gulp'),
     cssmin = require('gulp-clean-css'),
     chmod = require('gulp-chmod');
 const build = './assets/';
-const assets = '../../../assets/components/app/';
+const assets = '../../../assets/components/apptemplate/';
 
 gulp.task('default', ['css', 'js']);
 
 gulp.task('watch', function () {
     gulp.watch([build + 'scss/*.scss', build + 'scss/**/*.scss'], ['css']);
-    gulp.watch([build + 'js/*.js', build + 'js/app/*.js'], ['js']);
+    gulp.watch([build + 'js/*.js', build + 'js/apptemplate/*.js'], ['js']);
 });
 
 gulp.task('css', function () {
@@ -34,8 +34,8 @@ gulp.task('js', function () {
         }))
         .pipe(gulp.dest(dst));
 
-    src = build + 'js/app/*.js';
-    dst = assets + 'js/web/app/';
+    src = build + 'js/apptemplate/*.js';
+    dst = assets + 'js/web/apptemplate/';
     gulp.src(src)
         .pipe(uglify().on('error', function (e) {
             console.log(e);

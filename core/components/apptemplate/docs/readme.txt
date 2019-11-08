@@ -1,7 +1,7 @@
 --------------------
-App
+AppTemplate
 --------------------
 Author: Vasily Naumkin <bezumkin@yandex.ru>
 --------------------
 
-A main app for MODX Revolution site.
+A main apptemplate for MODX Revolution site.

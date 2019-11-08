@@ -1,6 +1,6 @@
 <?php
 
-class AppPackage
+class AppTemplatePackage
 {
     /** @var modX $modx */
     public $modx;
@@ -10,14 +10,14 @@ class AppPackage
     public $builder;
     protected $_idx = 1;
 
-    const name = 'App';
-    const name_lower = 'app';
+    const name = 'AppTemplate';
+    const name_lower = 'apptemplate';
     const version = '1.0.0';
     const release = 'pl';
 
 
     /**
-     * AppPackage constructor.
+     * AppTemplatePackage constructor.
      *
      * @param $core_path
      * @param array $config
@@ -139,7 +139,7 @@ class AppPackage
             /** @var modSystemSetting $setting */
             $setting = $this->modx->newObject('modSystemSetting');
             $setting->fromArray(array_merge([
-                'key' => 'app_' . $name,
+                'key' => 'apptemplate_' . $name,
                 'namespace' => $this::name_lower,
             ], $data), '', true, true);
             $vehicle = $this->builder->createVehicle($setting, $attributes);
@@ -476,7 +476,7 @@ if (!file_exists($core)) {
 }
 /** @noinspection PhpIncludeInspection */
 require $core;
-$install = new AppPackage(MODX_CORE_PATH);
+$install = new AppTemplatePackage(MODX_CORE_PATH);
 $builder = $install->process(true);
 
 if (!empty($_GET['download'])) {

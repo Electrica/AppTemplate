@@ -1,5 +1,4 @@
 <?php
-
 if (empty($argv[1])) {
     exit("\n" . 'You need to specify a new name of package.');
 }
@@ -7,7 +6,7 @@ $new_name = $argv[1];
 $new_name_lower = strtolower($new_name);
 $start = dirname(__FILE__);
 // --
-$old_name = 'App';
+$old_name = 'AppTemplate';
 $old_name_lower = strtolower($old_name);
 $dirs = scandir($start);
 

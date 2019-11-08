@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'App' => [
-        'file' => 'app',
+    'AppTemplate' => [
+        'file' => 'apptemplate',
         'description' => '',
         'events' => [
             'OnMODXInit' => [],

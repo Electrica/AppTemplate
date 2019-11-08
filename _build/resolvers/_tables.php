@@ -8,13 +8,13 @@ if ($transport->xpdo) {
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
-            $modelPath = $modx->getOption('app_core_path', null,
-                    $modx->getOption('core_path') . 'components/app/') . 'model/';
-            $modx->addPackage('app', $modelPath);
+            $modelPath = $modx->getOption('apptemplate_core_path', null,
+                    $modx->getOption('core_path') . 'components/apptemplate/') . 'model/';
+            $modx->addPackage('apptemplate', $modelPath);
 
             $manager = $modx->getManager();
             $objects = [];
-            $schemaFile = MODX_CORE_PATH . 'components/app/model/schema/app.mysql.schema.xml';
+            $schemaFile = MODX_CORE_PATH . 'components/apptemplate/model/schema/apptemplate.mysql.schema.xml';
 
             if (is_file($schemaFile)) {
                 $schema = new SimpleXMLElement($schemaFile, 0, true);
