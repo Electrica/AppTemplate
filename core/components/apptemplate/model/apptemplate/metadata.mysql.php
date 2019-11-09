@@ -1,3 +1,4 @@
 <?php
 
-$xpdo_meta_map = [];
+$xpdo_meta_map = array (
+);

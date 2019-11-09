@@ -324,6 +324,57 @@ class AppTemplatePackage
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($plugins) . ' Plugins');
     }
 
+    /**
+     * Add ClientConfig
+     */
+
+    protected function clientconfig(){
+        $clientconfigs = include($this->config['elements'] . 'clientconfig.php');
+        if(!is_array($clientconfigs)){
+            $this->modx->log(modx::LOG_LEVEL_ERROR, 'Could not package clientconfig');
+            return;
+        }
+
+        foreach ($clientconfigs as $key => $val) {
+            // Проверяем, есть ли категория
+            if(!$group = $this->modx->getObject('cgGroup', ['label' => $val['group']])){
+                // Вот тут создаем категорию
+                $this->modx->log(modx::LOG_LEVEL_ERROR, print_r($val));
+                $ar = [
+                    'label' => $val['group'],
+                    'description' => '',
+                    'sortorder' => ''
+                ];
+                $group = $this->modx->newObject('cgGroup');
+                $group->fromArray($ar);
+                $group->save();
+                $this->modx->log(modx::LOG_LEVEL_ERROR, $group->get('id'));
+
+            }
+
+            $group = $group->get('id');
+
+            // Создаем настройку
+
+            $val = array_merge($val, [
+                'group' => $group,
+                'key' => $key
+            ]);
+
+            if(!$clientConfig = $this->modx->getObject('cgSetting', ['key' => $val['key']])){
+                $save = $this->modx->newObject('cgSetting');
+                $save->fromArray($val);
+                $save->save();
+            }else{
+                foreach ($val as $k => $v) {
+                    $clientConfig->set($k, $v);
+                }
+                $clientConfig->save();
+            }
+
+        }
+    }
+
 
     /**
      * Add templates
