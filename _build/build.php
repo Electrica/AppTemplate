@@ -148,90 +148,6 @@ class AppTemplatePackage
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($settings) . ' System Settings');
     }
 
-
-    /**
-     * @param $filename
-     *
-     * @return string
-     */
-    protected function _getContent($filename)
-    {
-        $file = trim(file_get_contents($filename));
-        preg_match('#\<\?php(.*)#is', $file, $data);
-
-        return rtrim(rtrim(trim($data[1]), '?>'));
-    }
-
-
-    /**
-     * @param array $data
-     * @param string $uri
-     * @param int $parent
-     *
-     * @return array
-     */
-    protected function _addResource(array $data, $uri, $parent = 0)
-    {
-        $file = $data['context_key'] . '/' . $uri;
-        $template = $data['template'] = $this->_getTemplateId($data['template']);
-
-        /** @var modResource $resource */
-        $resource = $this->modx->newObject('modResource');
-        $resource->fromArray(array_merge([
-            'parent' => $parent,
-            'published' => true,
-            'deleted' => false,
-            'hidemenu' => false,
-            'createdon' => time(),
-            'template' => $template,
-            'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
-            'uri' => $uri,
-            'uri_override' => false,
-            'richtext' => false,
-            'searchable' => true,
-            'content' => file_exists($this->config['core'] . "elements/resources/{$file}.tpl")
-                ? file_get_contents($this->config['core'] . "elements/resources/{$file}.tpl")
-                : '',
-        ], $data), '', true, true);
-
-        if (!empty($data['groups'])) {
-            foreach ($data['groups'] as $group) {
-                $resource->joinGroup($group);
-            }
-        }
-        $resources[] = $resource;
-
-        if (!empty($data['resources'])) {
-            $menuindex = 0;
-            foreach ($data['resources'] as $alias => $item) {
-                $item['id'] = $this->_idx++;
-                $item['alias'] = $alias;
-                $item['context_key'] = $data['context_key'];
-                $item['menuindex'] = $menuindex++;
-                $resources = array_merge(
-                    $resources,
-                    $this->_addResource($item, $uri . '/' . $alias, $data['id'])
-                );
-
-
-            }
-        }
-
-        return $resources;
-    }
-
-    protected function _getTemplateId($templateName){
-        if(!$templateName){
-            return 0;
-        }
-
-        $template = $this->modx->getObject('modTemplate', ['templatename' => $templateName]);
-        if($templateName == null) return 0;
-
-        return $template->get('id');
-    }
-
-
     /**
      * Add resources
      */
@@ -431,6 +347,41 @@ class AppTemplatePackage
 
     protected function tv(){
         $tvs = include($this->config['elements'] . 'tv.php');
+        $idTv = 0;
+        foreach ($tvs as $name => $data) {
+            $data = array_merge(
+                $data,
+                ['name' => $name, 'category' => $this->_getCategoryId($data['category'])]
+            );
+
+            // Проверяем, есть ли TV
+            $obTv = $this->modx->getObject('modTemplateVar', ['name' => $name]);
+            if(is_object($obTv)){
+                //TODO вот тут надо вытащить в массив все связанные шаблоны
+                $data = array_merge(
+                    $obTv->toArray(),
+                    ['templates' => [3 => $this->_getTemplateId('MainTemplate', true)]]
+                );
+
+                print_r($data);
+
+                $response = $this->modx->runProcessor('element/tv/update',$data);
+                print_r($response->response);
+
+//                foreach ($data as $d){
+//                    $obTv->fromArray($data);
+//                    $obTv->save();
+//                    $idTv = $obTv->get('id');
+//                }
+            }else{
+                // Создаем
+                $cTv = $this->modx->newObject('modTemplateVar');
+                $cTv->fromArray($data);
+                $cTv->save();
+                $idTv = $obTv->get('name');
+            }
+
+        }
     }
 
 
@@ -539,6 +490,121 @@ class AppTemplatePackage
 
         return $this->builder;
     }
+
+
+    /**
+     * @param $filename
+     *
+     * @return string
+     */
+    protected function _getContent($filename)
+    {
+        $file = trim(file_get_contents($filename));
+        preg_match('#\<\?php(.*)#is', $file, $data);
+
+        return rtrim(rtrim(trim($data[1]), '?>'));
+    }
+
+
+    /**
+     * @param array $data
+     * @param string $uri
+     * @param int $parent
+     *
+     * @return array
+     */
+    protected function _addResource(array $data, $uri, $parent = 0)
+    {
+        $file = $data['context_key'] . '/' . $uri;
+        $template = $data['template'] = $this->_getTemplateId($data['template']);
+
+        /** @var modResource $resource */
+        $resource = $this->modx->newObject('modResource');
+        $resource->fromArray(array_merge([
+            'parent' => $parent,
+            'published' => true,
+            'deleted' => false,
+            'hidemenu' => false,
+            'createdon' => time(),
+            'template' => $template,
+            'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
+            'uri' => $uri,
+            'uri_override' => false,
+            'richtext' => false,
+            'searchable' => true,
+            'content' => file_exists($this->config['core'] . "elements/resources/{$file}.tpl")
+                ? file_get_contents($this->config['core'] . "elements/resources/{$file}.tpl")
+                : '',
+        ], $data), '', true, true);
+
+        if (!empty($data['groups'])) {
+            foreach ($data['groups'] as $group) {
+                $resource->joinGroup($group);
+            }
+        }
+        $resources[] = $resource;
+
+        if (!empty($data['resources'])) {
+            $menuindex = 0;
+            foreach ($data['resources'] as $alias => $item) {
+                $item['id'] = $this->_idx++;
+                $item['alias'] = $alias;
+                $item['context_key'] = $data['context_key'];
+                $item['menuindex'] = $menuindex++;
+                $resources = array_merge(
+                    $resources,
+                    $this->_addResource($item, $uri . '/' . $alias, $data['id'])
+                );
+
+
+            }
+        }
+
+        return $resources;
+    }
+
+    /**
+     * @param $templateName
+     * @return int
+     */
+    protected function _getTemplateId($templateName, $full = false){
+        if(!$templateName){
+            return 0;
+        }
+
+        $template = $this->modx->getObject('modTemplate', ['templatename' => $templateName]);
+        if($templateName == null) return 0;
+        if($full !== false){
+            return array_merge($template->toArray(), ['access' => true]);
+        }
+
+        return $template->get('id');
+    }
+
+    /**
+     * @param $categoryName
+     */
+    protected function _getCategoryId($categoryName){
+        //Проверяем, есть ли такая категория
+        $obCategory = $this->modx->getObject('modCategory', ['category' => $categoryName]);
+        if(!is_object($obCategory)){
+            $response = $this->modx->runProcessor('element/category/create',[
+                'parent' => 0,
+                'category' => $categoryName,
+                'rank' => 0
+            ]);
+
+            if($response->isError()){
+                return false;
+            }
+            return $response->response['object']['id'];
+        }
+
+        $id = $obCategory->get('id');
+        return $id;
+    }
+
+
 
 }
 
