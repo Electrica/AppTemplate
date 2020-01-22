@@ -4,18 +4,18 @@ return [
     'web' => [
         'index' => [
             'pagetitle' => 'Home',
-            'template' => 1,
+            'template' => 'MainTemplate',
             'hidemenu' => false,
         ],
         'service' => [
             'pagetitle' => 'Service',
-            'template' => 0,
+            'template' => '',
             'hidemenu' => true,
             'published' => false,
             'resources' => [
                 '404' => [
                     'pagetitle' => '404',
-                    'template' => 1,
+                    'template' => '',
                     'hidemenu' => true,
                     'uri' => '404',
                     'uri_override' => true,

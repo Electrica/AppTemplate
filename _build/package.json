@@ -6,9 +6,10 @@
   },
   "dependencies": {
     "bootstrap": "4.*",
+    "font-awesome": "4.*",
+    "gulp": "^4.0.2",
     "jquery": "3.*",
-    "requirejs": "2.*",
-    "font-awesome": "4.*"
+    "requirejs": "2.*"
   },
   "devDependencies": {
     "gulp-chmod": "2.*",

@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <title>{$_modx->resource.pagetitle} / {'site_name' | config}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-{var $assets = ('assets_url' | config) ~ 'components/apptemplate/'}
+{var $assets = ('assets_url' | config) ~ 'components/apptemplate'}
 
 <link rel="apptemplatele-touch-icon" sizes="57x57" href="{$assets}/img/favicon/apptemplatele-icon-57x57.png">
 <link rel="apptemplatele-touch-icon" sizes="60x60" href="{$assets}/img/favicon/apptemplatele-icon-60x60.png">
@@ -23,7 +23,7 @@
 
 {('<meta name="csrf-token" content="' ~ $.session['csrf-token'] ~ '">') | htmlToHead}
 {('<meta name="assets-version" content="' ~ $.assets_version ~ '">') | htmlToHead}
-{($assets ~ 'css/web/main.css?v=' ~ $.assets_version) | cssToHead}
-{($assets ~ 'js/web/lib/require.min.js?v=' ~ $.assets_version) | jsToHead : false}
-{($assets ~ 'js/web/config.js?v=' ~ $.assets_version) | jsToHead : false}
+{($assets ~ '/css/web/main.css?v=' ~ $.assets_version) | cssToHead}
+{($assets ~ '/js/web/lib/require.min.js?v=' ~ $.assets_version) | jsToHead : false}
+{($assets ~ '/js/web/config.js?v=' ~ $.assets_version) | jsToHead : false}
 {'<script type="text/javascript">requirejs(["apptemplate", "apptemplate/index"]);</script>' | htmlToBottom }

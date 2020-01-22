@@ -173,6 +173,8 @@ class AppTemplatePackage
     protected function _addResource(array $data, $uri, $parent = 0)
     {
         $file = $data['context_key'] . '/' . $uri;
+        $template = $data['template'] = $this->_getTemplateId($data['template']);
+
         /** @var modResource $resource */
         $resource = $this->modx->newObject('modResource');
         $resource->fromArray(array_merge([
@@ -181,14 +183,14 @@ class AppTemplatePackage
             'deleted' => false,
             'hidemenu' => false,
             'createdon' => time(),
-            'template' => 1,
+            'template' => $template,
             'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
             'uri' => $uri,
             'uri_override' => false,
             'richtext' => false,
             'searchable' => true,
             'content' => file_exists($this->config['core'] . "elements/resources/{$file}.tpl")
-                ? "{include 'file:resources/{$file}.tpl'}"
+                ? file_get_contents($this->config['core'] . "elements/resources/{$file}.tpl")
                 : '',
         ], $data), '', true, true);
 
@@ -216,6 +218,17 @@ class AppTemplatePackage
         }
 
         return $resources;
+    }
+
+    protected function _getTemplateId($templateName){
+        if(!$templateName){
+            return 0;
+        }
+
+        $template = $this->modx->getObject('modTemplate', ['templatename' => $templateName]);
+        if($templateName == null) return 0;
+
+        return $template->get('id');
     }
 
 
@@ -410,6 +423,14 @@ class AppTemplatePackage
             $this->builder->putVehicle($vehicle);
         }
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($templates) . ' Templates');
+    }
+
+    /**
+     * Add Tv
+     */
+
+    protected function tv(){
+        $tvs = include($this->config['elements'] . 'tv.php');
     }
 
 

@@ -6,6 +6,8 @@ return [
         'caption' => 'Показывать на главной',
         'description' => 'Описание ТВ',
         'category' => 'Главная',
-        'resources' => []
+        'templates' => [
+            'MainTemplate'
+        ]
     ]
 ];
