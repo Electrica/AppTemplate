@@ -347,39 +347,32 @@ class AppTemplatePackage
 
     protected function tv(){
         $tvs = include($this->config['elements'] . 'tv.php');
-        $idTv = 0;
         foreach ($tvs as $name => $data) {
+            if($data['templates'] && is_array($data['templates'])){
+                $templates = [];
+                foreach ($data['templates'] as $template) {
+                    $temp = $this->_getTemplateId($template, true);
+                    $templates['templates'][$temp['id']] = $temp;
+                }
+            }
             $data = array_merge(
                 $data,
+                $templates,
                 ['name' => $name, 'category' => $this->_getCategoryId($data['category'])]
             );
-
-            // Проверяем, есть ли TV
             $obTv = $this->modx->getObject('modTemplateVar', ['name' => $name]);
             if(is_object($obTv)){
-                //TODO вот тут надо вытащить в массив все связанные шаблоны
                 $data = array_merge(
                     $obTv->toArray(),
-                    ['templates' => [3 => $this->_getTemplateId('MainTemplate', true)]]
+                    $data
                 );
-
-                print_r($data);
-
                 $response = $this->modx->runProcessor('element/tv/update',$data);
-                print_r($response->response);
 
-//                foreach ($data as $d){
-//                    $obTv->fromArray($data);
-//                    $obTv->save();
-//                    $idTv = $obTv->get('id');
-//                }
             }else{
-                // Создаем
-                $cTv = $this->modx->newObject('modTemplateVar');
-                $cTv->fromArray($data);
-                $cTv->save();
-                $idTv = $obTv->get('name');
+                $response = $this->modx->runProcessor('element/tv/create', $data);
             }
+
+            $this->modx->log(modx::LOG_LEVEL_INFO, print_r($response->response));
 
         }
     }

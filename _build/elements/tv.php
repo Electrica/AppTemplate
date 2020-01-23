@@ -7,8 +7,7 @@ return [
         'description' => 'Описание ТВ',
         'category' => 'Главная',
         'templates' => [
-            'MainTemplate',
-            'BaseTemplate'
+            'MainTemplate'
         ]
     ],
     'banner' => [
