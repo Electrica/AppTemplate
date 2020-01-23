@@ -121,7 +121,9 @@ if (!function_exists('downloadPackage')) {
 $packages = [
     'Ace' => '1.6.5-pl',
     'pdoTools' => '2.10.0-pl',
-    'ClientConfig' => '1.0.0'
+    'ClientConfig' => '1.0.0',
+    'miniShop2' => '1.0.0',
+    'MIGX' => '1.0.0'
 ];
 $success = false;
 

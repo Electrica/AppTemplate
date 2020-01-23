@@ -360,20 +360,24 @@ class AppTemplatePackage
                 $templates,
                 ['name' => $name, 'category' => $this->_getCategoryId($data['category'])]
             );
+
+            // обработка MIGX
+            if($data['type'] == 'migx' && $data['inputProperties']){
+                foreach ($data['inputProperties'] as $key => $val) {
+                    $data['inopt_' . $key] = json_encode($val);
+                }
+            }
             $obTv = $this->modx->getObject('modTemplateVar', ['name' => $name]);
             if(is_object($obTv)){
                 $data = array_merge(
                     $obTv->toArray(),
                     $data
                 );
-                $response = $this->modx->runProcessor('element/tv/update',$data);
+                $this->modx->runProcessor('element/tv/update',$data);
 
             }else{
-                $response = $this->modx->runProcessor('element/tv/create', $data);
+                $this->modx->runProcessor('element/tv/create', $data);
             }
-
-            $this->modx->log(modx::LOG_LEVEL_INFO, print_r($response->response));
-
         }
     }
 
@@ -571,7 +575,7 @@ class AppTemplatePackage
             return array_merge($template->toArray(), ['access' => true]);
         }
 
-        return $template->get('id');
+        return is_object($template) ? $template->get('id') : 0;
     }
 
     /**

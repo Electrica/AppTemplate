@@ -3,9 +3,41 @@
 return [
     'web' => [
         'index' => [
-            'pagetitle' => 'Home',
+            'pagetitle' => 'Главная',
             'template' => 'MainTemplate',
             'hidemenu' => false,
+        ],
+        'catalog' => [
+            'pagetitle' => 'Каталог',
+            'template' => 'CatalogTemplate',
+            'class_key' => 'msCategory',
+            'hidemenu' => false,
+            'published' => true,
+            'resources' => [
+                'phone' => [
+                    'pagetitle' => 'Телефоны',
+                    'template' => 'CatalogTemplate',
+                    'class_key' => 'msCategory',
+                    'hidemenu' => false,
+                    'published' => true,
+                    'resources' => [
+                        'iphone' => [
+                            'pagetitle' => 'Телефон IPhone',
+                            'template' => 'ProductTemplate',
+                            'class_key' => 'msProduct',
+                            'hidemenu' => false,
+                            'published' => true,
+                        ]
+                    ]
+                ],
+                'television' => [
+                    'pagetitle' => 'Телевизоры',
+                    'template' => 'CatalogTemplate',
+                    'class_key' => 'msCategory',
+                    'hidemenu' => false,
+                    'published' => true,
+                ]
+            ]
         ],
         'service' => [
             'pagetitle' => 'Service',
