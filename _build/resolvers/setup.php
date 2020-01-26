@@ -123,7 +123,8 @@ $packages = [
     'pdoTools' => '2.10.0-pl',
     'ClientConfig' => '1.0.0',
     'miniShop2' => '1.0.0',
-    'MIGX' => '1.0.0'
+    'MIGX' => '1.0.0',
+    //'translit' => '1.0.0',
 ];
 $success = false;
 

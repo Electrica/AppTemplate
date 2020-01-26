@@ -341,10 +341,10 @@ class AppTemplatePackage
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($templates) . ' Templates');
     }
 
-    /**
-     * Add Tv
-     */
 
+    /**
+     * TV
+     */
     protected function tv(){
         $tvs = include($this->config['elements'] . 'tv.php');
         foreach ($tvs as $name => $data) {
@@ -381,12 +381,10 @@ class AppTemplatePackage
 
             $resp = $response->response;
             if($resp['success']){
-                $tvId = $resp['object']['id'];
                 if($data['resources'] && is_array($data['resources'])){
                     foreach ($data['resources'] as $key => $val){
                         $resource = $this->modx->getObject('modResource',['alias' => $key]);
                         if(is_object($resource)){
-                            print_r($val);
                             $resource->setTVValue($data['name'], $val);
                             $resource->save();
                         }
@@ -394,6 +392,45 @@ class AppTemplatePackage
                 }
             }
         }
+    }
+
+    /**
+     * miniShop2 Options
+     */
+    protected function options(){
+        $options = include($this->config['elements'] . 'options.php');
+        if(!is_array($options) && empty($options)) return;
+        $processorsOptions = [
+            'processors_path' => MODX_CORE_PATH . 'components/minishop2/processors/mgr/'
+        ];
+        foreach ($options as $key => $val) {
+
+            if(is_array($val['resources'])){
+                $outCat = [];
+                foreach ($val['resources'] as $category) {
+                    $cat = $this->modx->getObject('modResource', ['alias' => $category]);
+                    if(is_object($cat)){
+                        $outCat[$cat->get('id')] = 1;
+                    }
+                }
+            }
+            $val['category'] = 0;
+            $data = array_merge(
+                ['key' => $key],
+                $val,
+                ['categories' => json_encode($outCat)]
+            );
+            print_r($data);
+            if(!$this->modx->getCount('msOption', ['key' => $key])){
+                $response = $this->modx->runProcessor('settings/option/create', $data, $processorsOptions);
+            }else{
+                $option = $this->modx->getObject('msOption', ['key' => $key]);
+                $data['id'] = $option->get('id');
+                $response = $this->modx->runProcessor('settings/option/update', $data, $processorsOptions);
+            }
+        }
+
+
     }
 
 

@@ -10,6 +10,7 @@ if ($transport->xpdo) {
         'error_page' => '404',
         'service_id' => 'service',
         //'unauthorized_page' => '401',
+        'template_url' => '{assets_url}template/',
     ];
 
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
