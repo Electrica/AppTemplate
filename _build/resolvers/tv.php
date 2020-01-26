@@ -1,6 +1,4 @@
 <?php
-
-
 $tvs = [
     'show_main' => [
         'type' => 'checkbox',

@@ -259,7 +259,7 @@ class AppTemplatePackage
 
     protected function clientconfig(){
 
-        $tvs = str_replace('return','$clientconfigs =',str_replace('<?php', '', file_get_contents($this->config['elements'] . 'clientconfig.php')));
+        $tvs = preg_replace('/(\<\?php.*return)/s', '$configs =', file_get_contents($this->config['elements'] . 'clientconfig.php'));
         $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php');
         $resolver = preg_replace('/(\$clientconfigs\s=.*?\]\;)/s', $tvs, $resolver);
         file_put_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php', $resolver);
@@ -344,7 +344,7 @@ class AppTemplatePackage
      * TV
      */
     protected function tv(){
-        $tvs = str_replace('return','$tvs =',str_replace('<?php', '', file_get_contents($this->config['elements'] . 'tv.php')));
+        $tvs = preg_replace('/(\<\?php.*return)/s', '$tvs =', file_get_contents($this->config['elements'] . 'tv.php'));
         $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/tv.php');
         $resolver = preg_replace('/(\$tvs\s=.*?\]\;)/s', $tvs, $resolver);
         file_put_contents(dirname(__FILE__)  . '/resolvers/tv.php', $resolver);
@@ -399,6 +399,12 @@ class AppTemplatePackage
      * miniShop2 Options
      */
     protected function options(){
+
+        $tvs = preg_replace('/(\<\?php.*return)/s', '$options =', file_get_contents($this->config['elements'] . 'options.php'));
+        $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/options.php');
+        $resolver = preg_replace('/(\$options\s=.*?\]\;)/s', $tvs, $resolver);
+        file_put_contents(dirname(__FILE__)  . '/resolvers/options.php', $resolver);
+
         $options = include($this->config['elements'] . 'options.php');
         if(!is_array($options) && empty($options)) return;
         $processorsOptions = [
@@ -421,7 +427,6 @@ class AppTemplatePackage
                 $val,
                 ['categories' => json_encode($outCat)]
             );
-            print_r($data);
             if(!$this->modx->getCount('msOption', ['key' => $key])){
                 $response = $this->modx->runProcessor('settings/option/create', $data, $processorsOptions);
             }else{
@@ -430,8 +435,6 @@ class AppTemplatePackage
                 $response = $this->modx->runProcessor('settings/option/update', $data, $processorsOptions);
             }
         }
-
-
     }
 
 
@@ -486,7 +489,7 @@ class AppTemplatePackage
     {
         ob_start();
         $this->model();
-        $this->assets();
+        //$this->assets();
 
         // Add elements
         $elements = scandir($this->config['elements']);

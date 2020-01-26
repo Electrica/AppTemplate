@@ -1,7 +1,5 @@
 <?php
-
-
-$clientconfigs = [
+$configs = [
     'phone' => [
         'label' => 'Телефон',
         'xtype' => 'textfield',
