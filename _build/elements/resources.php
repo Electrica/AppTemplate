@@ -5,7 +5,7 @@ return [
         'index' => [
             'pagetitle' => 'Главная',
             'template' => 'MainTemplate',
-            'hidemenu' => false,
+            'hidemenu' => false
         ],
         'catalog' => [
             'pagetitle' => 'Каталог',

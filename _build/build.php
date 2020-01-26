@@ -373,10 +373,25 @@ class AppTemplatePackage
                     $obTv->toArray(),
                     $data
                 );
-                $this->modx->runProcessor('element/tv/update',$data);
+                $response = $this->modx->runProcessor('element/tv/update',$data);
 
             }else{
-                $this->modx->runProcessor('element/tv/create', $data);
+                $response = $this->modx->runProcessor('element/tv/create', $data);
+            }
+
+            $resp = $response->response;
+            if($resp['success']){
+                $tvId = $resp['object']['id'];
+                if($data['resources'] && is_array($data['resources'])){
+                    foreach ($data['resources'] as $key => $val){
+                        $resource = $this->modx->getObject('modResource',['alias' => $key]);
+                        if(is_object($resource)){
+                            print_r($val);
+                            $resource->setTVValue($data['name'], $val);
+                            $resource->save();
+                        }
+                    }
+                }
             }
         }
     }
@@ -514,6 +529,20 @@ class AppTemplatePackage
     {
         $file = $data['context_key'] . '/' . $uri;
         $template = $data['template'] = $this->_getTemplateId($data['template']);
+
+        if($data['tv'] && is_array($data['tv'])){
+            $data['tvs'] = true;
+            foreach ($data['tv'] as $key => $val){
+                $tv = $this->modx->getObject('modTemplateVar', ['name' => $key]);
+                if(is_object($tv)){
+                    $data['tv' . $tv->get('id')] = $val;
+                }
+            }
+        }
+
+        if($data['class_key'] == 'msProduct'){
+            $data['show_in_tree'] = false;
+        }
 
         /** @var modResource $resource */
         $resource = $this->modx->newObject('modResource');

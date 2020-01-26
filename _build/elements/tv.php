@@ -8,21 +8,30 @@ return [
         'description' => 'Описание ТВ',
         'category' => 'Главная',
         'templates' => [
-            'MainTemplate'
+            'MainTemplate',
+            'CatalogTemplate'
+        ],
+        'resources' => [
+            'index' => true,
+            'catalog' => true
         ]
     ],
     'banner' => [
-        'type' => 'checkbox',
-        'caption' => 'Ссылка',
-        'description' => 'Описание ТВ',
+        'type' => 'image',
+        'caption' => 'Картинка',
+        'description' => 'Картинка для главной',
         'category' => 'Баннер',
         'templates' => [
-            'MainTemplate'
+            'MainTemplate',
+            'CatalogTemplate'
+        ],
+        'resources' => [
+            'index' => 'assets/image.jpg',
+            'catalog' => 'assets/catalog.png',
         ]
     ],
     'blocks' => [
         'type' => 'migx',
-        //'inopt_configs' => 'Конфигурация',
         'caption' => 'Блоки',
         'description' => 'Описание ТВ',
         'category' => 'Блоки на главной',
