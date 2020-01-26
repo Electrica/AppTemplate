@@ -4,7 +4,7 @@ return [
     'phone' => [
         'label' => 'Телефон',
         'xtype' => 'textfield',
-        'value' => '+7 771 777 77 77',
+        'value' => '+7 888 888 88 88',
         'group' => 'Контакты',
         'description' => 'Введите пожалуйста телефон'
     ],

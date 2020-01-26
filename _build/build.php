@@ -258,6 +258,12 @@ class AppTemplatePackage
      */
 
     protected function clientconfig(){
+
+        $tvs = str_replace('return','$clientconfigs =',str_replace('<?php', '', file_get_contents($this->config['elements'] . 'clientconfig.php')));
+        $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php');
+        $resolver = preg_replace('/(\$clientconfigs\s=.*?\]\;)/s', $tvs, $resolver);
+        file_put_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php', $resolver);
+
         $clientconfigs = include($this->config['elements'] . 'clientconfig.php');
         if(!is_array($clientconfigs)){
             $this->modx->log(modx::LOG_LEVEL_ERROR, 'Could not package clientconfig');
@@ -267,8 +273,6 @@ class AppTemplatePackage
         foreach ($clientconfigs as $key => $val) {
             // Проверяем, есть ли категория
             if(!$group = $this->modx->getObject('cgGroup', ['label' => $val['group']])){
-                // Вот тут создаем категорию
-                $this->modx->log(modx::LOG_LEVEL_ERROR, print_r($val));
                 $ar = [
                     'label' => $val['group'],
                     'description' => '',
@@ -277,14 +281,8 @@ class AppTemplatePackage
                 $group = $this->modx->newObject('cgGroup');
                 $group->fromArray($ar);
                 $group->save();
-                $this->modx->log(modx::LOG_LEVEL_ERROR, $group->get('id'));
-
             }
-
             $group = $group->get('id');
-
-            // Создаем настройку
-
             $val = array_merge($val, [
                 'group' => $group,
                 'key' => $key
@@ -346,6 +344,11 @@ class AppTemplatePackage
      * TV
      */
     protected function tv(){
+        $tvs = str_replace('return','$tvs =',str_replace('<?php', '', file_get_contents($this->config['elements'] . 'tv.php')));
+        $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/tv.php');
+        $resolver = preg_replace('/(\$tvs\s=.*?\]\;)/s', $tvs, $resolver);
+        file_put_contents(dirname(__FILE__)  . '/resolvers/tv.php', $resolver);
+
         $tvs = include($this->config['elements'] . 'tv.php');
         foreach ($tvs as $name => $data) {
             if($data['templates'] && is_array($data['templates'])){
@@ -360,8 +363,6 @@ class AppTemplatePackage
                 $templates,
                 ['name' => $name, 'category' => $this->_getCategoryId($data['category'])]
             );
-
-            // обработка MIGX
             if($data['type'] == 'migx' && $data['inputProperties']){
                 foreach ($data['inputProperties'] as $key => $val) {
                     $data['inopt_' . $key] = json_encode($val);
@@ -648,7 +649,6 @@ class AppTemplatePackage
      * @param $categoryName
      */
     protected function _getCategoryId($categoryName){
-        //Проверяем, есть ли такая категория
         $obCategory = $this->modx->getObject('modCategory', ['category' => $categoryName]);
         if(!is_object($obCategory)){
             $response = $this->modx->runProcessor('element/category/create',[
