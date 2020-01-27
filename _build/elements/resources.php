@@ -27,6 +27,13 @@ return [
                             'class_key' => 'msProduct',
                             'hidemenu' => false,
                             'published' => true,
+                        ],
+                        'samsung' => [
+                            'pagetitle' => 'Телефон Samsung',
+                            'template' => 'ProductTemplate',
+                            'class_key' => 'msProduct',
+                            'hidemenu' => false,
+                            'published' => true,
                         ]
                     ]
                 ],

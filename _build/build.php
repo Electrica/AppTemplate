@@ -437,6 +437,49 @@ class AppTemplatePackage
         }
     }
 
+    /**
+     * miniShop2 source
+     */
+    protected function source(){
+        $sourcefile = preg_replace('/(\<\?php.*return)/s', '$source =', file_get_contents($this->config['elements'] . 'source.php'));
+        $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/source.php');
+        $resolver = preg_replace('/(\$properties\s=.*?\]\;)/s', $sourcefile, $resolver);
+        file_put_contents(dirname(__FILE__)  . '/resolvers/source.php', $resolver);
+
+        $properties = include($this->config['elements'] . 'source.php');
+        /** @var $source modMediaSource */
+        if (!$source = $this->modx->getObject('sources.modMediaSource', ['name' => $properties['name']])) {
+            $source = $this->modx->newObject('sources.modMediaSource', $properties);
+        } else {
+            $default = $source->get('properties');
+            foreach ($properties['properties'] as $k => $v) {
+                if (!array_key_exists($k, $default)) {
+                    $default[$k] = $v;
+                }
+            }
+            $source->set('properties', $default);
+        }
+        $source->save();
+
+        if ($setting = $this->modx->getObject('modSystemSetting', ['key' => 'ms2_product_source_default'])) {
+            if (!$setting->get('value')) {
+                $setting->set('value', $source->get('id'));
+                $setting->save();
+            }
+        }
+        @mkdir(MODX_ASSETS_PATH . 'images/');
+        @mkdir(MODX_ASSETS_PATH . 'images/products/');
+
+        // Удаляем пустые источники
+        $sources = $this->modx->getIterator('sources.modMediaSource', ['name' => '']);
+        if(is_object($sources)){
+            foreach ($sources as $source) {
+                print_r($source->toArray());
+                $source->remove();
+            }
+        }
+    }
+
 
     /**
      *  Install package
