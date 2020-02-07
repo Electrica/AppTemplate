@@ -640,7 +640,7 @@ class AppTemplatePackage
             'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
             'uri' => $uri,
             'uri_override' => false,
-            'richtext' => false,
+            'richtext' => true,
             'searchable' => true,
             'content' => file_exists($this->config['core'] . "elements/resources/{$file}.tpl")
                 ? file_get_contents($this->config['core'] . "elements/resources/{$file}.tpl")

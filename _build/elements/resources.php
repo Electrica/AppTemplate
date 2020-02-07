@@ -65,6 +65,7 @@ return [
                     'hidemenu' => true,
                     'uri' => 'sitemap.xml',
                     'uri_override' => true,
+                    'richtext' => false
                 ],
             ],
         ],

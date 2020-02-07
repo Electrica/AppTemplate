@@ -1,11 +1,27 @@
 <?php
 
 if (!function_exists('installPackage')) {
-    function installPackage(modX $modx, $packageName)
+    function installPackage(modX $modx, $packageName, $prov)
     {
         /** @var modTransportProvider $provider */
-        if (!$provider = $modx->getObject('transport.modTransportProvider', ['service_url:LIKE' => '%modstore.pro%'])) {
-            $provider = $modx->getObject('transport.modTransportProvider', 1);
+        if (!$provider = $modx->getObject('transport.modTransportProvider', ['name' => $prov])) {
+            // Добавляем наш провайдер
+            $opt = [
+                'name' => $prov,
+                'description' => $prov,
+                'service_url' => "https://$prov/extras/",
+                'username' => '',
+                'api_key' => '',
+                'active' => 1,
+                'priority' => 10,
+                'properties' => ''
+            ];
+            $provider = $modx->newObject('transport.modTransportProvider');
+            foreach ($opt as $key => $val){
+                $provider->set($key, $val);
+            }
+            $provider->save();
+            $provider = $modx->getObject('transport.modTransportProvider', $opt);
         }
         $modx->getVersionData();
         $productVersion = $modx->version['code_name'] . '-' . $modx->version['full_version'];
@@ -119,12 +135,22 @@ if (!function_exists('downloadPackage')) {
 }
 
 $packages = [
-    'Ace' => '1.6.5-pl',
-    'pdoTools' => '2.10.0-pl',
-    'ClientConfig' => '1.0.0',
-    'miniShop2' => '1.0.0',
-    'MIGX' => '1.0.0',
-    'translit' => '',
+    'modx.com' => [
+        'MIGX' => '1.0.0',
+        'translit' => '1.0.0-beta',
+        'Ace' => '1.6.5-pl',
+        'CKEditor' => '1.0.0',
+        'ClientConfig' => '1.0.0',
+        'FormIt' => '4.2.5',
+        'pThumb' => '2.3.3'
+    ],
+    'modstore.pro' => [
+//        'Sendex' => '1.1.3-pl',
+        'pdoTools' => '2.10.0-pl',
+        'miniShop2' => '1.0.0',
+        'AjaxForm' => '1.1.9'
+    ],
+
 ];
 $success = false;
 
@@ -136,20 +162,23 @@ if ($transport->xpdo) {
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
-            foreach ($packages as $name => $version) {
-                $installed = $modx->getIterator('transport.modTransportPackage', ['package_name' => $name]);
-                /** @var modTransportPackage $package */
-                foreach ($installed as $package) {
-                    if ($package->compareVersion($version, '<=')) {
-                        continue(2);
+
+            foreach ($packages as $provider => $package){
+                foreach ($package as $name => $version) {
+                    $installed = $modx->getIterator('transport.modTransportPackage', ['package_name' => $name]);
+                    /** @var modTransportPackage $package */
+                    foreach ($installed as $package) {
+                        if ($package->compareVersion($version, '<=')) {
+                            continue(2);
+                        }
                     }
+                    $modx->log(modX::LOG_LEVEL_INFO, "Trying to install <b>{$name}</b>. Please wait...");
+                    $response = installPackage($modx, $name, $provider);
+                    $level = $response['success']
+                        ? modX::LOG_LEVEL_INFO
+                        : modX::LOG_LEVEL_ERROR;
+                    $modx->log($level, $response['message']);
                 }
-                $modx->log(modX::LOG_LEVEL_INFO, "Trying to install <b>{$name}</b>. Please wait...");
-                $response = installPackage($modx, $name);
-                $level = $response['success']
-                    ? modX::LOG_LEVEL_INFO
-                    : modX::LOG_LEVEL_ERROR;
-                $modx->log($level, $response['message']);
             }
             $success = true;
             break;
