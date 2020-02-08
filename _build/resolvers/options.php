@@ -34,7 +34,7 @@ if ($transport->xpdo) {
             $processorsOptions = [
                 'processors_path' => MODX_CORE_PATH . 'components/minishop2/processors/mgr/'
             ];
-            foreach ($options as $key => $val) {
+            foreach ($opt as $key => $val) {
 
             if(is_array($val['resources'])){
                 $outCat = [];

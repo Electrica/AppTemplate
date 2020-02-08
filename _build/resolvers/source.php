@@ -1,5 +1,5 @@
 <?php
-$source = [
+$properties = [
     'name' => 'MS2 Images',
     'description' => 'Default media source for images of miniShop2 products',
     'class_key' => 'sources.modFileMediaSource',

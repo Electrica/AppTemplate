@@ -153,6 +153,10 @@ class AppTemplatePackage
      */
     protected function resources()
     {
+        $resources = preg_replace('/(\<\?php.*return)/s', '$resources =', file_get_contents($this->config['elements'] . 'resources.php'));
+        $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/resources.php');
+        $resolver = preg_replace('/(\$resources\s=.*?\]\;)/s', $resources, $resolver);
+        file_put_contents(dirname(__FILE__)  . '/resolvers/resources.php', $resolver);
         /** @noinspection PhpIncludeInspection */
         $resources = include($this->config['elements'] . 'resources.php');
         if (!is_array($resources)) {
@@ -259,7 +263,7 @@ class AppTemplatePackage
 
     protected function clientconfig(){
 
-        $tvs = preg_replace('/(\<\?php.*return)/s', '$configs =', file_get_contents($this->config['elements'] . 'clientconfig.php'));
+        $tvs = preg_replace('/(\<\?php.*return)/s', '$clientconfigs =', file_get_contents($this->config['elements'] . 'clientconfig.php'));
         $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php');
         $resolver = preg_replace('/(\$clientconfigs\s=.*?\]\;)/s', $tvs, $resolver);
         file_put_contents(dirname(__FILE__)  . '/resolvers/clientconfig.php', $resolver);
@@ -402,7 +406,7 @@ class AppTemplatePackage
 
         $tvs = preg_replace('/(\<\?php.*return)/s', '$options =', file_get_contents($this->config['elements'] . 'options.php'));
         $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/options.php');
-        $resolver = preg_replace('/(\$options\s=.*?\]\;)/s', $tvs, $resolver);
+        $resolver = preg_replace('/(\$opt\s=.*?\]\;)/s', $tvs, $resolver);
         file_put_contents(dirname(__FILE__)  . '/resolvers/options.php', $resolver);
 
         $options = include($this->config['elements'] . 'options.php');
@@ -441,7 +445,7 @@ class AppTemplatePackage
      * miniShop2 source
      */
     protected function source(){
-        $sourcefile = preg_replace('/(\<\?php.*return)/s', '$source =', file_get_contents($this->config['elements'] . 'source.php'));
+        $sourcefile = preg_replace('/(\<\?php.*return)/s', '$properties =', file_get_contents($this->config['elements'] . 'source.php'));
         $resolver = file_get_contents(dirname(__FILE__)  . '/resolvers/source.php');
         $resolver = preg_replace('/(\$properties\s=.*?\]\;)/s', $sourcefile, $resolver);
         file_put_contents(dirname(__FILE__)  . '/resolvers/source.php', $resolver);

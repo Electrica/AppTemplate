@@ -180,13 +180,12 @@ if ($transport->xpdo) {
                     $modx->log($level, $response['message']);
                 }
             }
-            $success = true;
             break;
 
         case xPDOTransport::ACTION_UNINSTALL:
-            $success = true;
             break;
     }
 }
 
-return $success;
+$modx->log(modx::LOG_LEVEL_ERROR, __FILE__);
+return true;

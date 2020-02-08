@@ -137,7 +137,6 @@ if ($transport->xpdo) {
             break;
     }
 }
-return true;
 
 function _getTemplateId($templateName, $full = false, $modx){
     if(!$templateName){
@@ -171,3 +170,7 @@ function _getCategoryId($categoryName, $modx){
     $id = $obCategory->get('id');
     return $id;
 }
+
+
+return true;
+
